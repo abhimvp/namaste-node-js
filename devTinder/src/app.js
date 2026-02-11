@@ -2,22 +2,59 @@ const express = require("express");
 const connectDB = require("./config/database"); // to connect to the DB
 const app = express();
 const User = require("./models/user"); // to perform CRUD operations on the users collection in the DB
+const { validateSignupData } = require("./utils/validation"); // to validate the signup data before saving it to the DB
+const bcrypt = require("bcrypt"); // to encrypt the password before saving it to the DB
 
 app.use(express.json()); // to parse the incoming request body as JSON, this will allow us to access the data sent by the client in the request body using req.body in our route handlers
 // this will be activated  for all the routes defined after this line, so we can access the request body in all our route handlers using req.body
 
 // signup route to add a new user to the DB
 app.post("/signup", async (req, res) => {
-  console.log(req.body); // this will log the request object, which contains all the information about the incoming request, including the request body (req.body) that we will use to get the user data to save in the DB
-  const user = new User(req.body); // create a new user document using the User model and the data from the request body (req.body) to save this user in the DB
-
   try {
+    // 1 validating the data
+
+    validateSignupData(req); // this will validate the signup data using the validateSignupData function defined in the utils/validation.js file, if the data is invalid, it will throw an error and the execution will stop here, otherwise it will continue to the next step
+
+    const { firstName, lastName, email, password } = req.body;
+
+    // 2 Encrypting the password
+    const passwordHash = await bcrypt.hash(password, 10); // this will hash the password using bcrypt with a salt rounds of 10, which means that it will add 10 random characters to the password before hashing it, this will make the hashed password more secure and harder to crack
+    // console.log("Hashed password: ", passwordHash);
+
+    // save the user in the DB
+    const user = new User({
+      firstName,
+      lastName,
+      email,
+      password: passwordHash, // we will save the hashed password in the DB instead of the plain text password, so that even if someone gets access to the DB, they won't be able to see the actual passwords of the users
+    });
     const savedUser = await user.save(); // save the user document to the DB, this will return a promise that resolves to the saved user document
     res.status(201).json(savedUser); // send the saved user document as the response
   } catch (err) {
-    res
-      .status(500)
-      .json({ error: "Error saving user to the DB", details: err.message });
+    res.status(400).send("ERROR: " + err.message); // if there is any error during the validation or saving process, we will catch it here and send a response with status code 400 (Bad Request) and the error message
+  }
+});
+
+// login API
+app.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // first check whether the user with emailid is present in db or not
+
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      throw new Error("Invalid Credentials");
+      // never send a response with status code 404 (Not Found) for invalid credentials, because it will give a hint to the attacker that the email ID is not registered in our system, which can be used for further attacks, so we will just send a generic error message without specifying whether the email ID is invalid or the password is invalid
+    }
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      throw new Error("Invalid Credentials");
+      // never send a response with status code 404 (Not Found) for invalid credentials, because it will give a hint to the attacker that the email ID is not registered in our system, which can be used for further attacks, so we will just send a generic error message without specifying whether the email ID is invalid or the password is invalid
+    }
+    res.status(200).send("Login successful");
+  } catch (err) {
+    res.status(400).send("ERROR: " + err.message);
   }
 });
 
@@ -45,12 +82,10 @@ app.get("/feed", async (req, res) => {
     const users = await User.find({}); // this will return all the user documents from the DB - empty filter object {} will match all documents in the collection, so it will return all the users in the DB
     res.status(200).json(users);
   } catch (err) {
-    res
-      .status(500)
-      .json({
-        error: "Error fetching users from the DB",
-        details: err.message,
-      });
+    res.status(500).json({
+      error: "Error fetching users from the DB",
+      details: err.message,
+    });
   }
 });
 

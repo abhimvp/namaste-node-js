@@ -10,6 +10,7 @@ const userSchema = new Schema(
       required: true, // this will make the firstName field required, so if we try to save a user document without the firstName field, it will throw an error
       trim: true, // this will remove any leading or trailing whitespace from the firstName field before saving it to the DB, so that we can avoid duplicate names with different cases and whitespace
       minlength: 4, // this will set the minimum length of the firstName field to 2 characters, so if we try to save a user document with a firstName that is less than 2 characters long, it will throw an error
+      maxlength: 20, // this will set the maximum length of the firstName field to 20 characters, so if we try to save a user document with a firstName that is more than 20 characters long, it will throw an error
     },
     lastName: {
       type: String,
