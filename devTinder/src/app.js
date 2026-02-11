@@ -4,9 +4,13 @@ const app = express();
 const User = require("./models/user"); // to perform CRUD operations on the users collection in the DB
 const { validateSignupData } = require("./utils/validation"); // to validate the signup data before saving it to the DB
 const bcrypt = require("bcrypt"); // to encrypt the password before saving it to the DB
+const cookieParser = require("cookie-parser"); // to parse the cookies from the incoming request
+const jwt = require("jsonwebtoken"); // to create and verify JWT tokens for authentication and authorization
 
 app.use(express.json()); // to parse the incoming request body as JSON, this will allow us to access the data sent by the client in the request body using req.body in our route handlers
 // this will be activated  for all the routes defined after this line, so we can access the request body in all our route handlers using req.body
+
+app.use(cookieParser()); // to parse the cookies from the incoming request - this is a middleware that will be executed for all the routes defined after this line, so we can access the cookies in all our route handlers using req.cookies
 
 // signup route to add a new user to the DB
 app.post("/signup", async (req, res) => {
@@ -48,11 +52,52 @@ app.post("/login", async (req, res) => {
       // never send a response with status code 404 (Not Found) for invalid credentials, because it will give a hint to the attacker that the email ID is not registered in our system, which can be used for further attacks, so we will just send a generic error message without specifying whether the email ID is invalid or the password is invalid
     }
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
+    if (isPasswordValid) {
+      // Create a JWT Token
+      const token = await jwt.sign(
+        { _id: user._id },
+        "secretKeyIKNowThisIsNotASafeWayToStoreTheSecretKeyInProduction",
+      ); // this will create a JWT token with the user ID as the payload, and a secret key to sign the token, but it's generally recommended to keep it short for better security
+      // console.log("Generated JWT Token: ", token);
+
+      // Add the token to cookie and send the response back to the user.
+      res.cookie("token", token);
+
+      res.send("Login successful");
+    } else {
       throw new Error("Invalid Credentials");
-      // never send a response with status code 404 (Not Found) for invalid credentials, because it will give a hint to the attacker that the email ID is not registered in our system, which can be used for further attacks, so we will just send a generic error message without specifying whether the email ID is invalid or the password is invalid
     }
-    res.status(200).send("Login successful");
+  } catch (err) {
+    res.status(400).send("ERROR: " + err.message);
+  }
+});
+
+app.get("/profile", async (req, res) => {
+  try {
+    // now we validate the cookie
+    const cookies = req.cookies;
+    const { token } = cookies;
+    // console.log("Received token from cookie: ", token);
+    if (!token) {
+      throw new Error(
+        "No token found in cookies, please login to access the profile page",
+      );
+    }
+    // validate my token here, if the token is valid, then we will allow the user to access the profile page, otherwise we will send an error response with status code 401 (Unauthorized) and a message "Invalid Token"
+    const decodedMessage = await jwt.verify(
+      token,
+      "secretKeyIKNowThisIsNotASafeWayToStoreTheSecretKeyInProduction",
+    ); // this will verify the token using the same secret key that was used to sign the token, if the token is valid, it will return the decoded payload (which contains the user ID in our case), otherwise it will throw an error
+    // console.log("Decoded message from token: ", decodedMessage);
+    const { _id } = decodedMessage; // this will extract the user ID from the decoded message, which we can use to fetch the user details from the DB and send it as a response to the client
+    // console.log("logged in user id is : ", _id);
+
+    const user = await User.findById(_id);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+    res.send(user);
   } catch (err) {
     res.status(400).send("ERROR: " + err.message);
   }
