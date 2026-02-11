@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 var validator = require("validator");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const { Schema } = mongoose;
 
 // define all the properties of the user in the schema that we will store in the DB, and their data types
@@ -77,6 +79,28 @@ const userSchema = new Schema(
   },
   { timestamps: true },
 ); // this will add createdAt and updatedAt fields to the user document, and automatically set their values when we create or update a user document in the DB
+
+// schema methods are instance methods that we can define on our schema, and they will be available on all the instances of the model that we create using that schema, for example, we can define a method to generate a JWT token for the user, and we can call that method on the user instance to get the token
+userSchema.methods.getJWT = async function () {
+  // Arrow functions does not work here
+  const user = this;
+  const token = await jwt.sign(
+    { _id: user._id },
+    "secretKeyIKNowThisIsNotASafeWayToStoreTheSecretKeyInProduction",
+    { expiresIn: "7d" },
+  );
+  return token;
+};
+
+userSchema.methods.validatePassword = async function (passwordInputByUser) {
+  const user = this;
+  const passwordHash = user.password; // this will give us the hashed password stored in the DB for the user
+  const isPasswordValid = await bcrypt.compare(
+    passwordInputByUser,
+    passwordHash,
+  );
+  return isPasswordValid;
+};
 
 // https://mongoosejs.com/docs/guide.html#models - To use our schema definition, we need to convert our Schema into a Model we can work with. To do so, we pass it into mongoose.model(modelName, schema)
 const User = mongoose.model("User", userSchema); // create a model named User using the userSchema, and this will create a collection named users in the DB

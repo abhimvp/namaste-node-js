@@ -10,6 +10,13 @@
 - `$ npm install cookie-parser`
 - https://www.jwt.io/
 - `npm i jsonwebtoken` - https://www.npmjs.com/package/jsonwebtoken
+- we can expire token and cookies as well - https://expressjs.com/en/5x/api.html#res.cookie
+- Schema methods in mongoose
+
+---
+
+- Create Auth Middleware - why do we need a middleware? - i want all my api's to be secure & only work after authentication
+- Until now profile API is only secure. All the other API's do not have token check. - so we will create the Auth middleware and validate the token over there.
 
 <!-- Reference notes from akshadjaiswal -->
 
