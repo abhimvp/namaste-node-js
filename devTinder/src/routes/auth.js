@@ -59,7 +59,13 @@ authRouter.post("/login", async (req, res) => {
   }
 });
 
-
+// logout API
+authRouter.post("/logout", (req, res) => {
+  res.clearCookie("token"); // to logout the user, we can simply clear the token cookie from the browser, and this will effectively log the user out of the application, and we can send a response back to the client indicating that the logout was successful - https://expressjs.com/en/5x/api.html#res.clearCookie
+  //   or
+  //   res.cookie("token", null, { expires: new Date(Date.now()) }); // we can also set the token cookie to null and set its expiration time to the current time, this will also effectively log the user out of the application, and we can send a response back to the client indicating that the logout was successful
+  res.send("Logout successful");
+});
 
 module.exports = {
   authRouter,

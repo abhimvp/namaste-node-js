@@ -2,9 +2,9 @@
 
 ## authRouter
 
-- POST /signup
-- POST /login
-- POST /logout
+- POST /signup - done
+- POST /login - done
+- POST /logout - done
 
 The above three api's are related to auth, so we will create authRouter & add the api's into this.
 
@@ -12,9 +12,9 @@ The above three api's are related to auth, so we will create authRouter & add th
 
 ## profileRouter
 
-- GET /profile/view --> to fetch and view profile
-- PATCH /profile/edit --> other fields
-- PATCH /profile/password --> only for password
+- GET /profile/view --> to fetch and view profile - done
+- PATCH /profile/edit --> other fields - done
+- PATCH /profile/password --> only for password - TODO
 
 - The profile Router will have all these 3 API's
 
