@@ -26,8 +26,8 @@ Status: ignore(pass) , interested(like) , accepted , rejected
 
 ## connectionRequestRouter
 
-- POST /request/send/interested/:userId
-- POST /request/send/ignored/:userId
+- POST /request/send/:status/:userId -> :status can be interested or ignored
+
 - POST /request/review/accepted/:requestID
 - POST /request/review/rejected/:requestID
 

@@ -48,16 +48,9 @@ const userSchema = new Schema(
     },
     gender: {
       type: String,
-      // have a custom validator to allow only male,female,other as valid values for the gender
-      validate: {
-        validator: function (value) {
-          // works only when we are creating a new user document, if we are updating an existing user document and we try to update the gender field, then this validator will not work
-          if (!["male", "female", "other"].includes(value.toLowerCase())) {
-            throw new Error("Gender must be either male, female, or other");
-          } else {
-            return true;
-          }
-        },
+      enum: {
+        values: ["male", "female", "other"],
+        message: `{VALUE} is not a valid gender type`,
       },
     },
     photoUrl: {
