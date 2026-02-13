@@ -6,10 +6,12 @@ const connectionRequestSchema = new mongoose.Schema(
   {
     fromUserId: {
       type: mongoose.Schema.Types.ObjectId,
+      ref: "User", // this will create a reference to the User model, and this will help us to populate the fromUserId field with the user data when we query the connection requests collection, and this will also help us to easily find the user data of the sender of the connection request when we query the connection requests collection
       required: true,
     },
     toUserId: {
       type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
     status: {

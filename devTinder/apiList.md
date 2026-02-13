@@ -28,8 +28,7 @@ Status: ignore(pass) , interested(like) , accepted , rejected
 
 - POST /request/send/:status/:userId -> :status can be interested or ignored
 
-- POST /request/review/accepted/:requestID
-- POST /request/review/rejected/:requestID
+- POST /request/review/:status/:requestID -> :status can be rejected or accepted
 
 - Adds the above API's into connection request router
 
@@ -37,8 +36,8 @@ Status: ignore(pass) , interested(like) , accepted , rejected
 
 ## userRouter
 
-- GET /user/connections
-- GET /user/requests
+- GET /user/connections - who has accepted my connection requests
+- GET /user/requests/received - shows all the requested the user has received
 - GET /user/feed - gets you the profiles of other users of the platform
 
 - Organize our API's using [express router](https://expressjs.com/en/5x/api.html#express.router)

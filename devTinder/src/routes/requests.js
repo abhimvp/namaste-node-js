@@ -77,7 +77,7 @@ requestRouter.post(
   userAuth,
   async (req, res) => {
     try {
-      const loggedInUser = req.user;
+      const loggedInUser = req.user; // receiver of the connection request(toUserId)
       const { status, requestId } = req.params;
 
       //Validate Status
@@ -90,10 +90,10 @@ requestRouter.post(
       }
 
       //validating the request
-      const connectionRequest = await ConnectionRequestModel.findOne({
+      const connectionRequest = await ConnectionRequest.findOne({
         _id: requestId,
         toUserId: loggedInUser._id,
-        status: "intrested",
+        status: "interested",
       });
 
       if (!connectionRequest) {
