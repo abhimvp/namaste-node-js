@@ -62,6 +62,16 @@ userRouter.get("/user/feed", userAuth, async (req, res) => {
 
     const loggedInUser = req.user;
 
+    const page = parseInt(req.query.page) || 1;
+    let limit = parseInt(req.query.limit) || 10;
+    // of my limit is greater than 10 then set it to 10, because we don't want to send too much data to the client in one request, and this will help us to improve the performance of our application - hangs our Database if we send too much data in one request, and also this will help us to prevent the abuse of our API by sending too much data in one request, and this will also help us to reduce the load on our server by sending less data in one request, and this will also help us to improve the user experience of our application by sending less data in one request, and this will also help us to reduce the bandwidth usage of our application by sending less data in one request, and this will also help us to improve the response time of our application by sending less data in one request, and this will also help us to improve the scalability of our application by sending less data in one request
+    if (limit > 4) {
+      limit = 4;
+    }
+    const skip = (page - 1) * limit;
+
+    // There can be lot of improvements in our Feed API depends on user requirements : TODO
+
     // Find all connection requests ( sent + received) of the logged in user
     const connectionRequests = await ConnectionRequest.find({
       $or: [{ toUserId: loggedInUser._id }, { fromUserId: loggedInUser._id }],
@@ -83,8 +93,11 @@ userRouter.get("/user/feed", userAuth, async (req, res) => {
       $and: [
         { _id: { $nin: Array.from(hideUsersFromFeed) } },
         { _id: { $ne: loggedInUser._id } },
-      ], // use $nin operator to filter out the users who are connected, ignored or already sent the connection request by the logged in user when we query the users collection, and we are converting the set of user ids to an array using Array.from() method, and this will help us to easily filter out these users from the feed of the logged in user when we query the users collection
-    }).select(USER_SAFE_DATA); // use select to get only the required fields from the users collection, and this will help us to easily display the user data of the users in the feed of the logged in user when we query the users collection
+      ],
+    })
+      .select(USER_SAFE_DATA)
+      .skip(skip)
+      .limit(limit);
     res.send(users);
   } catch (err) {
     res.status(400).json({

@@ -39,5 +39,6 @@ Status: ignore(pass) , interested(like) , accepted , rejected
 - GET /user/connections - who has accepted my connection requests
 - GET /user/requests/received - shows all the requested the user has received
 - GET /user/feed - gets you the profiles of other users of the platform - Now
+  - Added pagination and while building frontend - we will get back to our API to keep our responses standards.
 
 - Organize our API's using [express router](https://expressjs.com/en/5x/api.html#express.router)
