@@ -45,6 +45,23 @@ Package name:
   </style>
 ```
 
+- we will use component library - [daisyUI](https://daisyui.com/?lang=en) - compatible with Tailwindcss & use [components](https://daisyui.com/components/) from it directly like NavBar, [Accordion](https://daisyui.com/components/accordion/) etc
+- How to install: Refer [docs](https://daisyui.com/docs/install/)
+  - `pnpm add -D daisyui@latest`
+- Automatically the theme changes to dark.
+- we can update theme as we wish as there are many [available](https://daisyui.com/docs/themes/):
+
+```css
+@plugin "daisyui" {
+  themes:
+    light --default,
+    dark --prefersdark;
+}
+```
+
+- we will use this [Navbar component](https://daisyui.com/components/navbar/#navbar-with-search-input-and-dropdown)
+- Refer the [color guide](https://daisyui.com/docs/colors/) to have colors as we need in our components
+
 <!-- Notes from akshadjaiswal -->
 
 # DevTinder Frontend - UI Development 🚀
