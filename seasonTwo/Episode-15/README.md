@@ -79,6 +79,9 @@ Use react-router-dom for web development
 - react-router-dom: This package extends react-router with web-specific features and DOM bindings, such as BrowserRouter, Link, NavLink, and navigation hooks like useNavigate
 ```
 
+- Creating child routes for Body and render those sub-routes using Outlet in Body Component
+- Added [Footer component](https://daisyui.com/components/footer/#centered-footer-with-logo-and-social-icons) from daisyUI
+
 <!-- Notes from akshadjaiswal -->
 
 # DevTinder Frontend - UI Development 🚀
