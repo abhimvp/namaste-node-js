@@ -32,6 +32,7 @@ authRouter.post("/signup", async (req, res) => {
 // login API
 authRouter.post("/login", async (req, res) => {
   try {
+    // console.log("Login API called with body:", req.body); // log the request body to see what data is being sent from the client
     const { email, password } = req.body;
 
     const user = await User.findOne({ email: email });
@@ -50,7 +51,7 @@ authRouter.post("/login", async (req, res) => {
         expires: new Date(Date.now() + 1 * 3600000), // cookie will be removed after 1 hour
       });
 
-      res.send("Login successful");
+      res.send(user);
     } else {
       throw new Error("Invalid Credentials");
     }

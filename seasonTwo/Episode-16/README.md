@@ -8,6 +8,15 @@
 <!-- My notes -->
 
 - Let's start with login, logout & signup features.
+- Create a Login Page
+  - To make an API call - we will use `axios` [library](https://www.npmjs.com/package/axios).
+    - `pnpm add axios` - Promise based HTTP client for the browser and node.js
+- Bypass cors error when making call from frontend to backend.
+  - let's install the `cors` [middleware](https://www.npmjs.com/package/cors) or refer this [expressjs-cors](https://expressjs.com/en/resources/middleware/cors.html)
+    - `pnpm add cors` in backend
+    - need to whitelist the UI origin to be able to set cookies on browser otherwise the axios won't allow to store it for http requests.
+- you need to do set of things to accept cookies on browser.
+- whenever you're making API call with axios - u need to pass `{withCredentials:true}`
 
 <!-- Reference notes of akshadjaiswal -->
 
