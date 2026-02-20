@@ -36,6 +36,14 @@ Package name:
 ```
 
 - default Code cleanup (Remove unnecessary code)
+- Install - `tailwindcss` - `pnpm install tailwindcss @tailwindcss/vite` - Follow the [docs](https://tailwindcss.com/docs/installation/using-vite)
+- In chrome devTools - in Elements tab - in `<head>` section - we can see ->
+
+```bash
+<style type="text/css" data-vite-dev-id="C:/Users/abhis/Desktop/backend/namaste-node-js/devTinder-web/src/index.css">
+    <!-- All the code related to tailwindcss is included automatically when we are done with configuring tailwindcss and we can get started using it -->
+  </style>
+```
 
 <!-- Notes from akshadjaiswal -->
 
