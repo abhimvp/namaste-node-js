@@ -62,6 +62,23 @@ Package name:
 - we will use this [Navbar component](https://daisyui.com/components/navbar/#navbar-with-search-input-and-dropdown)
 - Refer the [color guide](https://daisyui.com/docs/colors/) to have colors as we need in our components
 
+- Always try to create smaller components.
+- Create a NavBar.jsx seperate component file.
+- Setup Routing in our application(app).
+  - we will use [react-router](https://reactrouter.com/) for this.
+  - `pnpm add react-router-dom`
+  - [Read this](https://dev.to/pramod_boda/what-is-the-difference-between-react-router-and-react-router-dom-2da6#:~:text=Using%20useParams%20to%20Access%20Route,on%20top%20of%20react%2Drouter%20.) for why react-router-dom and not react-router
+  - Routing can be created on the root level of the application in `App.jsx`
+
+```txt
+Should You Use react-router or react-router-dom?
+Use react-router-dom for web development
+
+- react-router: This is the core package that provides the basic, platform-agnostic routing logic and components like Routes, Route, and Outlet. You generally do not install or use this package directly in application code.
+
+- react-router-dom: This package extends react-router with web-specific features and DOM bindings, such as BrowserRouter, Link, NavLink, and navigation hooks like useNavigate
+```
+
 <!-- Notes from akshadjaiswal -->
 
 # DevTinder Frontend - UI Development 🚀
