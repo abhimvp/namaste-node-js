@@ -18,6 +18,10 @@
 - handle error validation in Login Page.
 - Login & Logout done well.
 
+- Let's build Feed Feature
+  - fetch feed data from backend and store it in redux store.
+  - create [cards](https://daisyui.com/components/card/#card) to display user feed info.
+
 <!-- Reference Notes from akshadjaiswal -->
 
 # DevTinder Frontend - UI (Part - 3)🚀
