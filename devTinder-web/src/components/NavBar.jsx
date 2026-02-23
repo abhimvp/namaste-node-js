@@ -1,8 +1,29 @@
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { BASE_URL } from "../utils/constants";
+import { removeUser } from "../utils/userSlice";
 const Navbar = () => {
-  const user = useSelector((store) => store.user); // this will give us the user data from the redux store, and we can use that user data to show the user's name, email, etc. in the navbar or any other component where we want to show the user's information
-  console.log(user); // this will log the user data in the console, and we can see that we are getting the user data from the redux store, and we can use that user data to show the user's name, email, etc. in the navbar or any other component where we want to show the user's information
+  const user = useSelector((store) => store.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    try {
+      await axios.post(
+        BASE_URL + "/logout",
+        {},
+        {
+          withCredentials: true,
+        },
+      );
+      // clear the user from the store
+      dispatch(removeUser());
+      return navigate("/login");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="navbar bg-base-300 shadow-sm">
       <div className="flex-1">
@@ -13,7 +34,6 @@ const Navbar = () => {
       {user && (
         <div className="flex gap-2">
           <div className="form-control">Welcome, {user.firstName}</div>
-          {/* show the profile icon when the user is logged in */}
 
           <div className="dropdown dropdown-end mx-5">
             <div
@@ -39,7 +59,7 @@ const Navbar = () => {
                 <a>Settings</a>
               </li>
               <li>
-                <a>Logout</a>
+                <a onClick={handleLogout}>Logout</a>
               </li>
             </ul>
           </div>

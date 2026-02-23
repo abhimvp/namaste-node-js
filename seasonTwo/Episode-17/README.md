@@ -14,6 +14,10 @@
   - Also once we login - we don't have to make profile-view API call again and again.
   - Now you cannot access random pages without API tokens.
 
+- Logout & clear redux store & redirect the user to Login page
+- handle error validation in Login Page.
+- Login & Logout done well.
+
 <!-- Reference Notes from akshadjaiswal -->
 
 # DevTinder Frontend - UI (Part - 3)🚀
