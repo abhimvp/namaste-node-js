@@ -6,7 +6,8 @@
 
 ## MyNotes
 
-- bla bla bla
+- Build a feature to see all my connections (`/user/connections`)
+  - store the connections
 
 ## Reference notes from akshadjaiswal
 
