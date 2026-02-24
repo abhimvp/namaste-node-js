@@ -9,6 +9,9 @@
 - Build a feature to see all my connections (`/user/connections`)
   - store the connections
 
+- Build a feature to see all the connection requests received.
+  - a function to handle the requests
+
 ## Reference notes from akshadjaiswal
 
 ### 📌 Code Demonstration Links
