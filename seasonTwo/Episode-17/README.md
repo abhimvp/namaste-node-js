@@ -22,6 +22,10 @@
   - fetch feed data from backend and store it in redux store.
   - create [cards](https://daisyui.com/components/card/#card) to display user feed info.
 
+- Edit Profile Form
+  - get the user from the store
+  - use it pre-fill the edit profile component
+
 <!-- Reference Notes from akshadjaiswal -->
 
 # DevTinder Frontend - UI (Part - 3)🚀
