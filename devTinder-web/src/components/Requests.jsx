@@ -7,7 +7,7 @@ import { addRequests, removeRequest } from "../utils/requestSlice";
 const Requests = () => {
   const dispatch = useDispatch();
   const requests = useSelector((store) => store.request);
-  console.log(requests);
+  // console.log(requests);
 
   const reviewRequest = async (status, _id) => {
     try {
