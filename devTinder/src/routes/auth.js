@@ -8,24 +8,43 @@ const authRouter = express.Router();
 const User = require("../models/user");
 
 // signup API
+//signup api for signing the user
 authRouter.post("/signup", async (req, res) => {
+  // console.log("Signup API called with body:", req.body); log the request body to see what data is being sent from the client
   try {
+    //Validate the data
     validateSignupData(req);
-
-    const { firstName, lastName, email, password } = req.body;
-
+    const { firstName, lastName, email, password, age, gender, about, skills } =
+      req.body;
+    //Encrypt the password
     const passwordHash = await bcrypt.hash(password, 10);
+
+    const checkEmail = await User.findOne({ email });
+    // console.log(checkEmail);
+    if (checkEmail) {
+      throw new Error("Email Already Exist");
+    }
 
     const user = new User({
       firstName,
       lastName,
       email,
       password: passwordHash,
+      age,
+      gender,
+      about,
+      skills,
     });
     const savedUser = await user.save();
-    res.status(201).json(savedUser);
+    const token = await savedUser.getJWT();
+    res.cookie("token", token, {
+      expires: new Date(Date.now() + 8 * 3600000),
+    });
+    res
+      .status(200)
+      .json({ message: "User added successfully", data: savedUser });
   } catch (err) {
-    res.status(400).send("ERROR: " + err.message);
+    res.status(400).send("ERROR:" + err.message);
   }
 });
 

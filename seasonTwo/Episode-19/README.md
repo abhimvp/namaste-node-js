@@ -8,6 +8,7 @@
 ## MyNotes
 
 - Send/Ignore the user card from the feed
+- SignUp New User Feature.
 
 ## Reference notes from akshadjaiswal
 
