@@ -1,8 +1,13 @@
 # Episode - 19 | DevTinder UI - Part 5
 
+- In the final part of the DevTinder UI series, we focus on polishing the user interface, fixing bugs, and optimizing performance.
+- You’ll learn how to identify and resolve common issues, fine-tune the UI for responsiveness, and enhance the overall user experience.
+- This episode wraps up the series by ensuring the DevTinder application is robust, efficient, and ready for deployment.
+- Perfect for developers looking to put the finishing touches on their projects and deliver a professional-grade product.
+
 ## MyNotes
 
-- Get Started
+- Send/Ignore the user card from the feed
 
 ## Reference notes from akshadjaiswal
 
