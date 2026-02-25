@@ -6,14 +6,14 @@ import { removeUserFromFeed } from "../utils/feedSlice";
 const UserCard = ({ user }) => {
   console.log(user);
   const dispatch = useDispatch();
-  const { _id, firstName, lastName, age, gender, about, photoURL, skills } =
+  const { _id, firstName, lastName, age, gender, about, photoUrl, skills } =
     user;
 
   console.log("Extracted Skills:", skills); // Debugging
 
   const handleSendRequest = async (status, userId) => {
     try {
-      const res = await axios.post(
+      await axios.post(
         BASE_URL + "/request/send/" + status + "/" + userId,
         {},
         {
@@ -31,7 +31,7 @@ const UserCard = ({ user }) => {
       <figure>
         <img
           src={
-            photoURL ||
+            photoUrl ||
             "https://cdn.vectorstock.com/i/500p/98/17/gray-man-placeholder-portrait-vector-23519817.jpg"
           }
           alt={`${firstName} ${lastName}`}
