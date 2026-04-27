@@ -7,3 +7,5 @@
 [devTinder-web](https://github.com/akshaymarch7/devTinder-web) - AkshaySaini
 
 [devTinder](https://github.com/akshaymarch7/devTinder) - AkshaySaini
+
+- chrome-devtools mcp server using gemini cli - `gemini mcp add chrome-devtools npx chrome-devtools-mcp@latest --scope project`
